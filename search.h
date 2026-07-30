@@ -4,7 +4,7 @@
 
 #include "graph.h"
 
-int bfs(char[] key, Graph graph);
-int dfs(char[] key, Graph graph);
+int bfs(char key[], Graph graph);
+int dfs(char key[], Graph graph);
 
 #endif
