@@ -3,6 +3,7 @@
 #define GRAPH_H
 
 #include <stdlib.h>
+#include <string.h>
 #define NAME_MAX 256
 
 
@@ -11,8 +12,8 @@ typedef struct Node{
 } Node;
 
 typedef struct Edge{
-	Node *node1;
-	Node *node2;
+	Node node1;
+	Node node2;
 	int weight;
 } Edge;
 
@@ -27,11 +28,13 @@ void add_vertex(Node n, Graph graph);
 void add_edge(char key1[], char key2[], int weight, Graph graph);
 void get_degree(Graph graph);
 void check_edge(Edge e, Graph graph);
-void check_connectivity(char key1[], char key2[], Graph graph);
+int check_connectivity(char key1[], char key2[], int **adj_matrix);
 
 // Helper functions for the graph structure
 int resize_vertices(Graph g);
 int resize_edges(Graph g);
 void free_graph(Graph g);
+int get_node_index(char *target, Graph g);
+void generate_adj_matrix(int **adj_matrix, Graph g);
 
 #endif

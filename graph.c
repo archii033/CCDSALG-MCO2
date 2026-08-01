@@ -38,3 +38,32 @@ void free_graph(Graph g){
 	}
 	free(g.edges);
 }
+
+// Returns the index of a node from the graph if it exists,
+// else return -1 
+int get_node_index(char *target, Graph g){
+	for (int i = 0; i < g.num_vertices; i++){
+		if (strcmp(g.vertices[i].key, target) == 0){
+			return i;
+		}
+	}
+	return -1;
+}
+
+// each row corresponds to a vertice, and each column represents connection of this vertice
+// to some other vertex at that index. 1 for connected, 0 for not connected.
+void generate_adj_matrix(int **adj_matrix, Graph g){
+	for (int i = 0; i < g.num_vertices; i++){
+		// TODO: replace with edge_check
+		for (int j = 0; j < g.num_edges; j++){
+			if (strcmp( g.edges[j].node1.key, g.vertices[i].key) == 0){
+				adj_matrix[i][get_node_index(g.edges[j].node2.key, g)] = 1;
+			}
+		}
+	}
+}
+
+// TODO: implement  
+int check_connectivity(char key1[], char key2[], int **adj_matrix){
+	return -100;
+}

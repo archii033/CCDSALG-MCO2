@@ -22,6 +22,7 @@ int main(void){
 	int type = -1;
 	int num_tokens = -1;
 
+	int **adjacency_matrix;
 
 	do{
 		getInput(command);
@@ -62,7 +63,26 @@ int main(void){
 				
 			// Path-check
 			case 7:
+
+				// generate the adjacency matrix based on current state of the graph
+				adjacency_matrix = malloc(graph.num_vertices * sizeof(int *));
+				if (adjacency_matrix != NULL){
+			
+					for (int i = 0; i < graph.num_vertices; i++){
+						adjacency_matrix[i] =  calloc(graph.num_vertices, sizeof(int));
+					}
+					generate_adj_matrix(adjacency_matrix, graph);
+
+					// show result if path exists or not
+					printf("%d\n", check_connectivity(&c_arr[1], &c_arr[2], adjacency_matrix));
 				
+					// free adjacency matrix
+					for (int i = 0; i < graph.num_vertices; i++){
+						free(adjacency_matrix[i]);
+					}
+					free(adjacency_matrix);
+				}
+				break;
 			// MST
 			case 8:
 				
