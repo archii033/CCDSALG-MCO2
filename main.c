@@ -41,12 +41,70 @@ int main(void){
 			
 			// Add vertex
 			case 1:
-				
+				Node newNode;
+
+				// prevent duplicate vertices
+				if (get_node_index(tokenArray[1], graph) == -1) {
+
+					if (resize_vertices(&graph)) {
+
+						strcpy(newNode.key, tokenArray[1]);
+
+						graph.vertices[graph.num_vertices] = newNode;
+						graph.num_vertices++;
+					}
+				}
+
+				break;
+
 			// Add Edge
 			case 2:
-				
+				if (num_tokens != 4)
+					break;
+
+				// both vertices must already exist
+				if (get_node_index(tokenArray[1], graph) == -1 ||
+				    get_node_index(tokenArray[2], graph) == -1)
+					break;
+
+				// prevent duplicate edges
+				if (check_edge(tokenArray[1], tokenArray[2], graph))
+					break;
+
+				if (resize_edges(&graph)) {
+
+					strcpy(graph.edges[graph.num_edges].node1.key, tokenArray[1]);
+					strcpy(graph.edges[graph.num_edges].node2.key, tokenArray[2]);
+
+					graph.edges[graph.num_edges].weight = atoi(tokenArray[3]);
+
+					graph.num_edges++;
+				}
+
+				break;
+
 			// Get Degree
 			case 3:
+				if (num_tokens != 2)
+					break;
+
+				if (get_node_index(tokenArray[1], graph) == -1)
+					break;
+
+				int degree = 0;
+
+				for (int i = 0; i < graph.num_edges; i++) {
+
+					if (strcmp(graph.edges[i].node1.key, tokenArray[1]) == 0 ||
+					    strcmp(graph.edges[i].node2.key, tokenArray[1]) == 0) {
+
+						degree++;
+					}
+				}
+
+				printf("%d\n", degree);
+
+				break;
 				
 			// Edge-check
 			case 4:
