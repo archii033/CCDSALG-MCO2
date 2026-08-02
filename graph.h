@@ -27,7 +27,7 @@ typedef struct Graph{
 void add_vertex(Node n, Graph graph);
 void add_edge(char key1[], char key2[], int weight, Graph graph);
 void get_degree(Graph graph);
-void check_edge(Edge e, Graph graph);
+int check_edge(char *key1, char *key2, Graph graph);
 int check_connectivity(int n1, int n2,  int **adj_matrix, int num_vertices);
 
 // Helper functions for the graph structure

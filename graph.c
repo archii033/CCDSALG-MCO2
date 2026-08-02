@@ -214,3 +214,13 @@ int sortV_partition(Graph *graph, int lo, int hi){
 	swapV(&(graph->vertices[hi]), &(graph->vertices[i+1]));
 	return i+1;
 }
+
+int check_edge(char *key1, char *key2, Graph graph){
+	for (int i = 0; i < graph.num_edges; i++){
+		if ( (strcmp(graph.edges[i].node1.key, key1) == 0 && strcmp(graph.edges[i].node2.key, key2) == 0) ||
+			 (strcmp(graph.edges[i].node1.key, key2) == 0 && strcmp(graph.edges[i].node2.key, key1) == 0) ){
+			return 1;
+		}
+	}
+	return 0;
+}

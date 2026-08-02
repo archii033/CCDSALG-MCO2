@@ -50,12 +50,18 @@ int main(void){
 				
 			// Edge-check
 			case 4:
-				
+				printf("%d\n", check_edge(tokenArray[1], tokenArray[2], graph));
+				break;
+
 			// BFS
 			case 5:
-				
+				bfs(tokenArray[1], graph);
+				break;
+
 			// DFS
 			case 6:
+				dfs(tokenArray[1], graph);
+				break;
 				
 			// Path-check
 			case 7:
