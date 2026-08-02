@@ -62,7 +62,7 @@ void generate_adj_matrix(int **adj_matrix, Graph g){
 	
 }
 
-// takes the index of node 1 and node 2, then does a bfs of connections through the
+// takes the index of node 1 and node 2, then does a dfs of connections through the
 // adjacency matrix to check if a path exists between node 1 and node 2
 int check_connectivity(int n1, int n2, int **adj_matrix, int num_vertices){
 	
@@ -73,11 +73,12 @@ int check_connectivity(int n1, int n2, int **adj_matrix, int num_vertices){
 		explored[i] = 0;
 	}
 
+	// check if target node if a direct child
 	if ( adj_matrix[n1][n2] == 1){
 		return 1;
 	}
 	else
-	{
+	{	// depth-search travel
 		return travel(n2, n1, num_vertices, adj_matrix, explored);
 	}
 	
