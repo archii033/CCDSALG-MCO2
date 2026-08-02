@@ -9,6 +9,6 @@
 
 void clearInput();
 int getInput(char *str);
-int getNumTokens(char *str);
+int getTokens(char *str, char **tokenArray);
 
 #endif 

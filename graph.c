@@ -50,8 +50,6 @@ int get_node_index(char *target, Graph g){
 	return -1;
 }
 
-// each row corresponds to a vertice, and each column represents connection of this vertice
-// to some other vertex at that index. 1 for connected, 0 for not connected.
 void generate_adj_matrix(int **adj_matrix, Graph g){
 	for (int i = 0; i < g.num_vertices; i++){
 		// TODO: replace with edge_check
@@ -61,9 +59,44 @@ void generate_adj_matrix(int **adj_matrix, Graph g){
 			}
 		}
 	}
+	
 }
 
-// TODO: implement  
-int check_connectivity(char key1[], char key2[], int **adj_matrix){
-	return -100;
+// takes the index of node 1 and node 2, then does a bfs of connections through the
+// adjacency matrix to check if a path exists between node 1 and node 2
+int check_connectivity(int n1, int n2, int **adj_matrix, int num_vertices){
+	
+	int explored[num_vertices];
+	
+	// set all nodes as unexplored
+	for (int i = 0; i < num_vertices; i++){
+		explored[i] = 0;
+	}
+
+	if ( adj_matrix[n1][n2] == 1){
+		return 1;
+	}
+	else
+	{
+		return travel(n2, n1, num_vertices, adj_matrix, explored);
+	}
+	
+}
+
+int travel(int target, int current_node, int num_vertices, int **adj_matrix, int *explored){
+	
+	if (adj_matrix[current_node][target] == 1){
+		return 1;
+	}
+	else
+	{
+		for (int child = 0; child < num_vertices; child++){
+			if ( explored[child] != 1){
+				explored[child] = 1;
+				return travel(target, child, num_vertices, adj_matrix, explored);
+			}
+		}
+		return -1;
+		
+	}
 }

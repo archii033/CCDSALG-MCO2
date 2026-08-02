@@ -1,14 +1,15 @@
 #include "input.h"
 
-int getNumTokens(char *str){
+int getTokens(char *str, char **tokenArray){
     char* token = strtok(str, " ");
     int count = 0;
     
-    while (token != NULL) {
-    	count++;
+    for (int i = 0; token != NULL; i++) {
+    	tokenArray[i] = token;
         token = strtok(NULL, " ");
+        count++;
     }
-
+	
     return count;
 }
 

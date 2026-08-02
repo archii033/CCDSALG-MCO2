@@ -16,29 +16,25 @@ int main(void){
 	graph.num_edges = 0;
 	graph.edges =  malloc(sizeof(Edge));
 	graph.vertices = malloc(sizeof(Node));
-	
+			
+	// Initialize Adjacency Matrix
+	int **adjacency_matrix;
+
+	// Initialize Variables for Token Extraction
 	char command[MAX + 1];	// additional +1 for null terminator
-	char *c_arr;
+	char *tokenArray[4];
 	int type = -1;
 	int num_tokens = -1;
 
-	int **adjacency_matrix;
-
 	do{
 		getInput(command);
-		num_tokens = getNumTokens(command);
-		
+		// extract tokens separated by " " and get type
+		num_tokens = getTokens(command, tokenArray);
+		type = atoi(tokenArray[0]);
 		// skip commands with invalid number of tokens
 		if (num_tokens < 1 || num_tokens > 4){
 			continue;
 		}
-		
-		c_arr = strtok(command, " ");		// split the string by " " to a string array
-		if (c_arr != NULL)
-		{
-			type = atoi(&c_arr[0]);
-		}
-
 
 		// Execute command
 		switch (type){
@@ -63,18 +59,19 @@ int main(void){
 				
 			// Path-check
 			case 7:
-
-				// generate the adjacency matrix based on current state of the graph
+				// generate adjacency matrix
 				adjacency_matrix = malloc(graph.num_vertices * sizeof(int *));
-				if (adjacency_matrix != NULL){
+			if (adjacency_matrix != NULL){
 			
 					for (int i = 0; i < graph.num_vertices; i++){
 						adjacency_matrix[i] =  calloc(graph.num_vertices, sizeof(int));
 					}
 					generate_adj_matrix(adjacency_matrix, graph);
-
-					// show result if path exists or not
-					printf("%d\n", check_connectivity(&c_arr[1], &c_arr[2], adjacency_matrix));
+					
+					// search for a path
+					printf("%d\n", check_connectivity(get_node_index(tokenArray[1], graph), 
+													  get_node_index(tokenArray[2], graph), 
+													  adjacency_matrix, graph.num_vertices));
 				
 					// free adjacency matrix
 					for (int i = 0; i < graph.num_vertices; i++){
@@ -83,6 +80,7 @@ int main(void){
 					free(adjacency_matrix);
 				}
 				break;
+				
 			// MST
 			case 8:
 				
