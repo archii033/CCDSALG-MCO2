@@ -54,4 +54,5 @@ void sortEdges(Graph *graph, int lo, int hi);
 int sortE_partition(Graph *graph, int lo, int hi);
 void sortVertices(Graph *graph, int lo, int hi);
 int sortV_partition(Graph *graph, int lo, int hi);
+void printAdjacency(int **adj_matrix, int num_vertices);
 #endif

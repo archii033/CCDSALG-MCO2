@@ -61,15 +61,13 @@ int get_node_index(char *target, Graph g){
 // and a graph
 void generate_adj_matrix(int **adj_matrix, Graph g){
 	for (int i = 0; i < g.num_vertices; i++){
-		
+		int t = get_node_index(g.vertices[i].key, g);
 		for (int j = 0; j < g.num_edges; j++){
-			int t = get_node_index(g.edges[j].node2.key, g);
-			if (strcmp( g.edges[j].node1.key, g.vertices[i].key) == 0){
-				adj_matrix[i][t] = 1;
-				adj_matrix[t][i] = 1;
-			}
-			else {
-				adj_matrix[i][t] = 0;
+			int x = get_node_index(g.edges[j].node1.key, g);
+			int y = get_node_index(g.edges[j].node2.key, g);
+			if (x == t || y == t){
+				adj_matrix[x][y] = 1;
+				adj_matrix[y][x] = 1;
 			}
 		}
 	}
@@ -80,18 +78,18 @@ void generate_adj_matrix(int **adj_matrix, Graph g){
 // adjacency matrix to check if a path exists between node 1 and node 2
 int check_connectivity(int n1, int n2, int **adj_matrix, int num_vertices){
 	int explored[num_vertices];
+
 	
 	// set all nodes as unexplored
 	for (int i = 0; i < num_vertices; i++){
 		explored[i] = 0;
 	}
-	explored[n1] = 1;
-
 	if ( adj_matrix[n1][n2] == 1){
 		return 1;
 	}
 	else
-	{
+	{	
+		explored[n1] = 1;
 		return travel(n2, n1, num_vertices, adj_matrix, explored);
 	}
 	
@@ -100,21 +98,21 @@ int check_connectivity(int n1, int n2, int **adj_matrix, int num_vertices){
 // Does a depth-first travel through each child of the current node to 
 // check if a target node is connected.
 int travel(int target, int current_node, int num_vertices, int **adj_matrix, int *explored){
+
 	if (adj_matrix[current_node][target] == 1){
 		return 1;
 	}
 	else
 	{
+		explored[current_node] = 1;
 		for (int child = 0; child < num_vertices; child++){
 			if ( adj_matrix[current_node][child] == 1 && explored[child] != 1){
-				explored[child] = 1;
 				if (travel(target, child, num_vertices, adj_matrix, explored) == 1){
 					return 1;
 				}
 			}
 		}
 		return 0;
-		
 	}
 }
 
@@ -239,4 +237,14 @@ int check_edge(char *key1, char *key2, Graph graph){
 		}
 	}
 	return 0;
+}
+
+void printAdjacency(int **adj_matrix, int num_vertices){
+
+	for (int i = 0; i < num_vertices; i++){
+		for (int j = 0; j < num_vertices; j++){
+			printf("%d", adj_matrix[i][j]);
+		}
+		printf("\n");
+	}
 }

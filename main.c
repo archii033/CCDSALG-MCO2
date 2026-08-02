@@ -132,7 +132,7 @@ int main(void){
 				
 			// Path-check
 			case 7:
-				// generate adjacency matrix
+			// generate adjacency matrix
 			adjacency_matrix = malloc(graph.num_vertices * sizeof(int *));
 			if (adjacency_matrix != NULL){
 			
@@ -140,7 +140,7 @@ int main(void){
 						adjacency_matrix[i] =  calloc(graph.num_vertices, sizeof(int));
 					}
 					generate_adj_matrix(adjacency_matrix, graph);
-					
+
 					// search for a path
 					printf("%d\n", check_connectivity(get_node_index(tokenArray[1], graph), 
 													  get_node_index(tokenArray[2], graph), 
