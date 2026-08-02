@@ -37,4 +37,19 @@ void free_graph(Graph *g);
 int get_node_index(char *target, Graph g);
 void generate_adj_matrix(int **adj_matrix, Graph g);
 int travel(int target, int current_node, int num_vertices, int **adj_matrix, int *explored);
+
+// Print functions
+void print_edge(Edge e);
+void print_edges(Edge *edges, int num_edges);
+void print_vertex(Node v);
+void print_vertices(Node *vertices, int num_vertices);
+void print_graph(Graph g);
+
+// Sorting functions
+void swapE(Edge *a, Edge *b);
+void swapV(Node *a, Node *b);
+void sortEdges(Graph *graph, int lo, int hi);
+int sortE_partition(Graph *graph, int lo, int hi);
+void sortVertices(Graph *graph, int lo, int hi);
+int sortV_partition(Graph *graph, int lo, int hi);
 #endif

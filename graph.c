@@ -135,15 +135,82 @@ void print_vertices(Node *vertices, int num_vertices){
 		if (v != num_vertices - 1) printf(", ");
 	}
 }
-
 void print_graph(Graph g){
 	
 	printf("G = (V, E)\n");
 	printf("V = {");
+	sortVertices(&g, 0, g.num_vertices-1);
 	print_vertices(g.vertices, g.num_vertices);
 	printf("}\n");
 	printf("E = {\n");
+	sortEdges(&g, 0, g.num_edges-1);
 	print_edges(g.edges, g.num_edges);
 	printf("}\n");
+}
+
+void swapE(Edge *a, Edge *b){
+	Edge temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+void swapV(Node *a, Node *b){
+	Node temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+void sortEdges(Graph *graph, int lo, int hi){
+	if (lo < hi){
+		int p = sortE_partition(graph, lo, hi);
+		sortEdges(graph, lo, p-1);
+		sortEdges(graph, p+1, hi);
+	}
+}
+
+int sortE_partition(Graph *graph, int lo, int hi){
+	int i = lo - 1;
+	int comp = 0;
+	for (int j = lo; j < hi; j++){
+		comp = strcmp(graph->edges[j].node1.key, graph->edges[hi].node1.key);
+		if (comp < 0){
+			i++;
+			swapE(&(graph->edges[i]), &(graph->edges[j]));
+		}
+		else if (comp == 0){
+			comp = strcmp(graph->edges[j].node2.key, graph->edges[hi].node2.key);
+			if (comp < 0){
+				i++;
+				swapE(&(graph->edges[i]), &(graph->edges[j]));
+			}
+		}
+	}
+	swapE(&(graph->edges[hi]), &(graph->edges[i+1]));
+	return i+1;
+}
+
+
+void sortVertices(Graph *graph, int lo, int hi){
+	if (lo < hi){
+		int p = sortV_partition(graph, lo, hi);
+		sortVertices(graph, lo, p-1);
+		sortVertices(graph, p+1, hi);
+	}
+}
+
+
+int sortV_partition(Graph *graph, int lo, int hi){
+	int i = lo - 1;
+	int comp;
 	
+	for (int j = lo; j < hi; j++){
+		comp = strcmp(graph->vertices[j].key, graph->vertices[hi].key);
+		if (comp < 0){
+			i++;
+			swapV(&(graph->vertices[i]), &(graph->vertices[j]));
+		}
+	}
+	
+	swapV(&(graph->vertices[hi]), &(graph->vertices[i+1]));
+	return i+1;
 }
