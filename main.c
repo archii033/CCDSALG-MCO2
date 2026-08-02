@@ -167,7 +167,6 @@ int main(void){
 				print_graph(graph);
 				break;
 		}
-		printf("\n");
 	} while (type != 11);
 	free_graph(&graph);
 	return 0;
