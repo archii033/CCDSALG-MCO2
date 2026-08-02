@@ -4,6 +4,8 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+
 #define NAME_MAX 256
 
 

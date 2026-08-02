@@ -61,11 +61,12 @@ int get_node_index(char *target, Graph g){
 // and a graph
 void generate_adj_matrix(int **adj_matrix, Graph g){
 	for (int i = 0; i < g.num_vertices; i++){
-		// TODO: replace with edge_check
+		
 		for (int j = 0; j < g.num_edges; j++){
 			int t = get_node_index(g.edges[j].node2.key, g);
 			if (strcmp( g.edges[j].node1.key, g.vertices[i].key) == 0){
 				adj_matrix[i][t] = 1;
+				adj_matrix[t][i] = 1;
 			}
 			else {
 				adj_matrix[i][t] = 0;
@@ -84,7 +85,8 @@ int check_connectivity(int n1, int n2, int **adj_matrix, int num_vertices){
 	for (int i = 0; i < num_vertices; i++){
 		explored[i] = 0;
 	}
-	
+	explored[n1] = 1;
+
 	if ( adj_matrix[n1][n2] == 1){
 		return 1;
 	}
@@ -106,10 +108,12 @@ int travel(int target, int current_node, int num_vertices, int **adj_matrix, int
 		for (int child = 0; child < num_vertices; child++){
 			if ( adj_matrix[current_node][child] == 1 && explored[child] != 1){
 				explored[child] = 1;
-				return travel(target, child, num_vertices, adj_matrix, explored);
+				if (travel(target, child, num_vertices, adj_matrix, explored) == 1){
+					return 1;
+				}
 			}
 		}
-		return -1;
+		return 0;
 		
 	}
 }

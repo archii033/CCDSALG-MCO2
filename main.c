@@ -62,7 +62,7 @@ int main(void){
 			case 2: {
 				if (num_tokens != 4)
 					break;
-
+		
 				// both vertices must already exist
 				if (get_node_index(tokenArray[1], graph) == -1 ||
 				    get_node_index(tokenArray[2], graph) == -1)
@@ -158,6 +158,7 @@ int main(void){
 			case 8:
 				minimum_span(graph);
 				break;
+
 			// Shortest Path (Bonus pla ito)
 			case 9:
 				
@@ -166,6 +167,7 @@ int main(void){
 				print_graph(graph);
 				break;
 		}
+		printf("\n");
 	} while (type != 11);
 	free_graph(&graph);
 	return 0;

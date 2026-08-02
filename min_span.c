@@ -39,7 +39,7 @@ void minimum_span(Graph graph){
 			n2 = get_node_index(current_edge.node2.key, graph);
 
 			// Check if edge creates a cycle
-			if (n1 != n2 && check_connectivity(n1, n2, adj_matrix, graph.num_vertices) == -1){
+			if (n1 != n2 && check_connectivity(n1, n2, adj_matrix, graph.num_vertices) == 0){
 				resize_edges(&result);
 				result.edges[result.num_edges++] = current_edge;
 				
