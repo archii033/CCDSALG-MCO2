@@ -40,7 +40,7 @@ int main(void){
 		switch (type){
 			
 			// Add vertex
-			case 1:
+			case 1: {
 				Node newNode;
 
 				// prevent duplicate vertices
@@ -56,9 +56,10 @@ int main(void){
 				}
 
 				break;
+			}
 
 			// Add Edge
-			case 2:
+			case 2: {
 				if (num_tokens != 4)
 					break;
 
@@ -82,16 +83,17 @@ int main(void){
 				}
 
 				break;
+			}
 
 			// Get Degree
-			case 3:
+			case 3: {
+				int degree = 0;
+
 				if (num_tokens != 2)
 					break;
 
 				if (get_node_index(tokenArray[1], graph) == -1)
 					break;
-
-				int degree = 0;
 
 				for (int i = 0; i < graph.num_edges; i++) {
 
@@ -105,6 +107,7 @@ int main(void){
 				printf("%d\n", degree);
 
 				break;
+			}
 				
 			// Edge-check
 			case 4:
