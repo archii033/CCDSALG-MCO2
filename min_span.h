@@ -4,7 +4,11 @@
 
 #include "graph.h"
 
-Graph minimum_span(Graph graph);
+void minimum_span(Graph graph);
 
+// Helper functions for minimum_span
+void swap(Edge *a, Edge *b);
+void quickSortEdges(Graph *graph, int lo, int hi);
+int partition(Graph *graph, int lo, int hi);
 
 #endif

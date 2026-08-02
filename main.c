@@ -25,12 +25,12 @@ int main(void){
 	char *tokenArray[4];
 	int type = -1;
 	int num_tokens = -1;
-
 	do{
 		getInput(command);
 		// extract tokens separated by " " and get type
 		num_tokens = getTokens(command, tokenArray);
 		type = atoi(tokenArray[0]);
+		
 		// skip commands with invalid number of tokens
 		if (num_tokens < 1 || num_tokens > 4){
 			continue;
@@ -60,7 +60,7 @@ int main(void){
 			// Path-check
 			case 7:
 				// generate adjacency matrix
-				adjacency_matrix = malloc(graph.num_vertices * sizeof(int *));
+			adjacency_matrix = malloc(graph.num_vertices * sizeof(int *));
 			if (adjacency_matrix != NULL){
 			
 					for (int i = 0; i < graph.num_vertices; i++){
@@ -83,16 +83,18 @@ int main(void){
 				
 			// MST
 			case 8:
-				
+				minimum_span(graph);
+				break;
 			// Shortest Path (Bonus pla ito)
 			case 9:
 				
 			// Print the graph
 			case 10:
+				print_graph(graph);
 				break;
 		}
 	} while (type != 11);
-	free_graph(graph);
+	free_graph(&graph);
 	return 0;
 
 }
