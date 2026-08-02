@@ -1,6 +1,6 @@
 #include "graph.h"
 
-// returns 0 if realloc failed, else returns 1
+// Resizes the list of vertices in a graph. Returns 0 if realloc failed, else returns 1
 int resize_vertices(Graph *g){
 	Node *v = realloc(g->vertices, sizeof(Node) * (g->num_vertices + 1));
 	if (v == NULL){
@@ -12,7 +12,7 @@ int resize_vertices(Graph *g){
 	}
 }
 
-// returns 0 if realloc failed, else returns 1
+// Resizes the list of edges in a graph. returns 0 if realloc failed, else returns 1
 int resize_edges(Graph *g){
 	Edge *e = realloc(g->edges, sizeof(Edge) * (g->num_edges + 1));
 	if (e == NULL){
@@ -24,6 +24,7 @@ int resize_edges(Graph *g){
 	}
 }
 
+// Frees each part of a graph
 void free_graph(Graph *g){
 	if (g == NULL){
 		return;
@@ -41,6 +42,7 @@ void free_graph(Graph *g){
 	g->num_vertices = 0;
 }
 
+// Gets the specific index of a node from a graph
 // Returns the index of a node from the graph if it exists,
 // else return -1 
 int get_node_index(char *target, Graph g){
@@ -55,6 +57,8 @@ int get_node_index(char *target, Graph g){
 	return -1;
 }
 
+// Creates an adjacency matrix given a 2D Array to store the matrix
+// and a graph
 void generate_adj_matrix(int **adj_matrix, Graph g){
 	for (int i = 0; i < g.num_vertices; i++){
 		// TODO: replace with edge_check
@@ -71,7 +75,7 @@ void generate_adj_matrix(int **adj_matrix, Graph g){
 	
 }
 
-// takes the index of node 1 and node 2, then does a bfs of connections through the
+// Takes the index of node 1 and node 2, then does a dfs of connections through the
 // adjacency matrix to check if a path exists between node 1 and node 2
 int check_connectivity(int n1, int n2, int **adj_matrix, int num_vertices){
 	int explored[num_vertices];
@@ -91,6 +95,8 @@ int check_connectivity(int n1, int n2, int **adj_matrix, int num_vertices){
 	
 }
 
+// Does a depth-first travel through each child of the current node to 
+// check if a target node is connected.
 int travel(int target, int current_node, int num_vertices, int **adj_matrix, int *explored){
 	if (adj_matrix[current_node][target] == 1){
 		return 1;
@@ -108,13 +114,13 @@ int travel(int target, int current_node, int num_vertices, int **adj_matrix, int
 	}
 }
 
+// Print one edge of a graph
 void print_edge(Edge e){
 	printf("( %s, %s, %d )", e.node1.key, e.node2.key, e.weight);
 }
 
+// Prints edges of a graph
 void print_edges(Edge *edges, int num_edges){
-	
-	// TODO: sort Edges in lexicographical order
 	for (int e = 0; e < num_edges; e++){
 		printf("\t");
 		print_edge(edges[e]);
@@ -123,18 +129,20 @@ void print_edges(Edge *edges, int num_edges){
 	}
 }
 
+// Prints a vertex of a graph
 void print_vertex(Node v){
-	
 	printf("%s", v.key);
 }
 
+// Prints vertices of a graph
 void print_vertices(Node *vertices, int num_vertices){
-	// TODO: sort Vertices in lexicographical order
 	for (int v = 0; v < num_vertices; v++){
 		print_vertex(vertices[v]);
 		if (v != num_vertices - 1) printf(", ");
 	}
 }
+
+// Prints a graph with sorted vertices and edges in a specific format
 void print_graph(Graph g){
 	
 	printf("G = (V, E)\n");
@@ -148,18 +156,21 @@ void print_graph(Graph g){
 	printf("}\n");
 }
 
+// swaps Edges
 void swapE(Edge *a, Edge *b){
 	Edge temp = *a;
 	*a = *b;
 	*b = temp;
 }
 
+// swaps Vertices
 void swapV(Node *a, Node *b){
 	Node temp = *a;
 	*a = *b;
 	*b = temp;
 }
 
+// uses quicksort to sort edges of a graph
 void sortEdges(Graph *graph, int lo, int hi){
 	if (lo < hi){
 		int p = sortE_partition(graph, lo, hi);
@@ -168,6 +179,7 @@ void sortEdges(Graph *graph, int lo, int hi){
 	}
 }
 
+// helper function to partition sortEdges
 int sortE_partition(Graph *graph, int lo, int hi){
 	int i = lo - 1;
 	int comp = 0;
@@ -189,7 +201,7 @@ int sortE_partition(Graph *graph, int lo, int hi){
 	return i+1;
 }
 
-
+// uses quicksort to sort the vertices of a graph
 void sortVertices(Graph *graph, int lo, int hi){
 	if (lo < hi){
 		int p = sortV_partition(graph, lo, hi);
@@ -198,7 +210,7 @@ void sortVertices(Graph *graph, int lo, int hi){
 	}
 }
 
-
+// helper function to partition vertices
 int sortV_partition(Graph *graph, int lo, int hi){
 	int i = lo - 1;
 	int comp;

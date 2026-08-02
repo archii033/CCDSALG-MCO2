@@ -1,14 +1,6 @@
 #include "min_span.h"
 
-// union --join a vertex to a group
-// find() check which group the union belongs to
-// connect the vertices in a group by edge
-
-// find representative element 
-// two elements belong to a group if and only if they have the same representative 
-
-
-// Minimum Span --------------------------------------------------------------------------------
+// Gets the minimum spanning tree of the graph using a modified Kruskal's Algorithm
 void minimum_span(Graph graph){
 	
 	Graph result;
@@ -33,16 +25,20 @@ void minimum_span(Graph graph){
 			}
 		}
 	
-		// sort Edges in ascending order
+		// sort Edges in ascending order based on weight
 		quickSortEdges(&graph, 0, graph.num_edges-1);
 	
 		int n1, n2;
 		int check1, check2;
 		Edge current_edge;
+
+		// Examine and add edges
 		for (int i = 0; i < graph.num_edges; i++){
 			current_edge = graph.edges[i];
 			n1 = get_node_index(current_edge.node1.key, graph);
 			n2 = get_node_index(current_edge.node2.key, graph);
+
+			// Check if edge creates a cycle
 			if (n1 != n2 && check_connectivity(n1, n2, adj_matrix, graph.num_vertices) == -1){
 				resize_edges(&result);
 				result.edges[result.num_edges++] = current_edge;
@@ -66,12 +62,14 @@ void minimum_span(Graph graph){
 	print_graph(result);
 }
 
+// swap function for quickSortEdges
 void swap(Edge *a, Edge *b){
 	Edge temp = *a;
 	*a = *b;
 	*b = temp;
 }
 
+// a modified sortEdge function that uses weight for sorting
 void quickSortEdges(Graph *graph, int lo, int hi){
 	if (lo < hi){
 		int p = partition(graph, lo, hi);
@@ -80,6 +78,7 @@ void quickSortEdges(Graph *graph, int lo, int hi){
 	}
 }
 
+// a modified partition for quickSortEdges that uses weight as basis
 int partition(Graph *graph, int lo, int hi){
 	int pivot = hi;
 	int i = lo - 1;

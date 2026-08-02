@@ -1,5 +1,7 @@
 #include "input.h"
 
+// Splits a string using " " as a delimiter
+// then stores the result in a 2D char array
 int getTokens(char *str, char **tokenArray){
     char* token = strtok(str, " ");
     int count = 0;
