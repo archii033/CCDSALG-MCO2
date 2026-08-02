@@ -111,16 +111,22 @@ int main(void){
 				
 			// Edge-check
 			case 4:
+				if (num_tokens != 3)
+					break;
 				printf("%d\n", check_edge(tokenArray[1], tokenArray[2], graph));
 				break;
 
 			// BFS
 			case 5:
+				if (num_tokens != 2)
+					break;
 				bfs(tokenArray[1], graph);
 				break;
 
 			// DFS
 			case 6:
+				if (num_tokens != 2)
+					break;
 				dfs(tokenArray[1], graph);
 				break;
 				

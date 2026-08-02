@@ -42,14 +42,14 @@ static int get_neighbors(char *key, Graph g, char (*names)[NAME_MAX]){
 // Breadth-first search starting from key, using a queue.
 // Prints one vertex name per line. When there is a choice between adjacent
 // vertices, the lexicographically smaller one is visited first.
-// Returns 1 if the traversal ran, 0 if key is not in the graph or if
+// Returns 1 if the traversal completed, 0 if key is not in the graph or if
 // memory allocation failed.
 int bfs(char key[], Graph graph){
 	Queue q;
 	int *visited;
 	char (*neighbors)[NAME_MAX];
 	char current[NAME_MAX];
-	int start, count, i, index;
+	int start, count, i, index, ok;
 
 	start = get_node_index(key, graph);
 	if (start == -1){
@@ -68,17 +68,17 @@ int bfs(char key[], Graph graph){
 
 	// the start vertex is marked the moment it is enqueued
 	visited[start] = 1;
-	enqueue(&q, key);
+	ok = enqueue(&q, key);
 
-	while (dequeue(&q, current) == 1){
+	while (ok == 1 && dequeue(&q, current) == 1){
 		printf("%s\n", current);
 
 		count = get_neighbors(current, graph, neighbors);
-		for (i = 0; i < count; i++){
+		for (i = 0; i < count && ok == 1; i++){
 			index = get_node_index(neighbors[i], graph);
 			if (index != -1 && visited[index] == 0){
 				visited[index] = 1;
-				enqueue(&q, neighbors[i]);
+				ok = enqueue(&q, neighbors[i]);
 			}
 		}
 	}
@@ -87,21 +87,21 @@ int bfs(char key[], Graph graph){
 	free(visited);
 	free(neighbors);
 
-	return 1;
+	return ok;
 }
 
 // Depth-first search starting from key, using a stack.
 // Prints one vertex name per line. Neighbors are pushed in REVERSE
 // lexicographic order so that the smallest one ends up on top of the stack
 // and is therefore popped first.
-// Returns 1 if the traversal ran, 0 if key is not in the graph or if
+// Returns 1 if the traversal completed, 0 if key is not in the graph or if
 // memory allocation failed.
 int dfs(char key[], Graph graph){
 	Stack s;
 	int *visited;
 	char (*neighbors)[NAME_MAX];
 	char current[NAME_MAX];
-	int start, count, i, index;
+	int start, count, i, index, ok;
 
 	start = get_node_index(key, graph);
 	if (start == -1){
@@ -120,18 +120,18 @@ int dfs(char key[], Graph graph){
 
 	// the start vertex is marked the moment it is pushed
 	visited[start] = 1;
-	push(&s, key);
+	ok = push(&s, key);
 
-	while (pop(&s, current) == 1){
+	while (ok == 1 && pop(&s, current) == 1){
 		printf("%s\n", current);
 
 		count = get_neighbors(current, graph, neighbors);
 		// loop backwards so the smallest neighbor is pushed last
-		for (i = count - 1; i >= 0; i--){
+		for (i = count - 1; i >= 0 && ok == 1; i--){
 			index = get_node_index(neighbors[i], graph);
 			if (index != -1 && visited[index] == 0){
 				visited[index] = 1;
-				push(&s, neighbors[i]);
+				ok = push(&s, neighbors[i]);
 			}
 		}
 	}
@@ -140,5 +140,5 @@ int dfs(char key[], Graph graph){
 	free(visited);
 	free(neighbors);
 
-	return 1;
+	return ok;
 }
